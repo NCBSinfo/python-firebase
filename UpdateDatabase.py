@@ -5,6 +5,8 @@ Database is hosted on Firebase Real Time Database
 You will need following files (which are untracked from version control for security)
 secrets/credentials.py # Contains all database urls, api keys and credentials
 user_data/UserRegistration # Contains user registration data
+
+Script uses pyrebase library : https://github.com/thisbejim/Pyrebase
 """
 
 import pyrebase
@@ -16,11 +18,21 @@ config = {
     "authDomain": AUTH_DOMAIN,  # ProjectID.firebaseapp.com
     "databaseURL": DATABASE_URL,
     "storageBucket": STORAGE_BUCKET,  # projectId.appspot.com
+    "serviceAccount": "secrets/service_file.json"
 }
 
 firebase = pyrebase.initialize_app(config)
-auth = firebase.auth()
-user = auth.sign_in_with_email_and_password(EMAIL, PASSWORD)
 db = firebase.database()
-users = db.child("debug").get(user['idToken'])
-print(users.val())
+
+# for i in range(5):
+#     data = {
+#         "name": "asdasdasd",
+#         "id": 1
+#     }
+#     users = db.child("debug").child("user" + str(i)).update(data, user['idToken'])
+
+
+all_users = db.child("authEmails").get()
+for user in all_users.each():
+    print(user.key())
+    print(user.val())

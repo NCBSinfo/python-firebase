@@ -90,3 +90,4 @@ ENV/
 .idea/
 secrets/credentials.py
 user_data/UserRegistration.csv
+secrets/
